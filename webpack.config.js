@@ -19,19 +19,95 @@ const FONTS_DIR = `static/fonts`;
 const IMGS_DIR = `static/imgs`;
 const JS_DIR = 'static/js'
 
+const MOCK_API_JSON_FILE = './mock/api.json';
+
 module.exports = {
-    entry: WildcardsEntryWebpackPlugin.entry('./src/**/*.entry.js?(x)', {
+    entry: {
+        "index": "./src/index.entry.jsx",
         "jquery": ['jquery'],
         "bootstrap": ['bootstrap'],
         "react": ['react', 'react-dom', 'react-router']
-    }),
+    },
     output: {
         path:  path.resolve(__dirname, DIST_DIR),
-        filename: `${JS_DIR}/[name].[chunkhash].js`
+        // publicPath 是用于html中，资源加前缀，对资源生成目录没影响
+        publicPath: '/',
+        filename: `${JS_DIR}/[name].js`
     },
     devtool: 'inline-source-map',
     devServer: {
-        contentBase: path.resolve(__dirname, DIST_DIR)
+        // 这里的outpu.path是放在内存中的
+        // 这个变量的意思相当于nginx，
+        //  location ${publicPath} {
+        //      root   ${output.path};
+        //  }
+        //
+        //  所以contentBase不用设置${output.path}
+        publicPath:'/',
+
+        // 额外的静态资源目录，不受publicPath影响, 访问path为/ 根路径
+        // 这个变量的意思相当于nginx，
+        //  location / {
+        //      root   ${contentBase};
+        //  }
+        //
+        // 如果publicPath也设置为/根路径，那么publicPath对应的资源也就是${output.path}优先级高
+        // 官方文档有描述https://webpack.js.org/configuration/dev-server/#devserver-contentbase
+        //
+        contentBase: [path.resolve(__dirname, path.dirname(MOCK_API_JSON_FILE))],
+        proxy:{
+            '/**': {
+                bypass: (function() {
+                    var fs = require('fs');
+                    var JSON5 = require('json5');
+                    var util= require('util');
+                    var mTimeCache = {};
+                    var apiJsonFileCache;
+
+                    // 这里的请求路径能命中${contentBase}或者${output.path}就不匹配这里
+                    return function(req, res, proxyOptions) {
+                        let stats;
+                        try {
+                            stats = fs.statSync(MOCK_API_JSON_FILE)
+                        }
+                        catch(e){
+                            //  如果没有api.json文件，不需要mock
+                            return false;
+                        }
+
+                        //  如果api.json文件有改动,从新读取
+                        if(mTimeCache[MOCK_API_JSON_FILE] !== stats.mtime){
+                            let tmpData = fs.readFileSync(MOCK_API_JSON_FILE, 'utf8')
+                            try {
+                                apiJsonFileCache = JSON5.parse(tmpData);
+                            }
+                            catch(e){
+                                console.error(MOCK_API_JSON_FILE);
+                                console.error(e);
+                                return false;
+                            }
+                        }
+
+                        var mockJsonPath = apiJsonFileCache[req.path];
+                        if(mockJsonPath) {
+                            let mockJsonFullPath  = path.resolve(path.dirname(MOCK_API_JSON_FILE), mockJsonPath);
+                            let mockData;
+                            try {
+                                mockData = fs.readFileSync(mockJsonFullPath, 'utf8')
+                            }
+                            catch(e){
+                                console.warn('warn: 404', "request:",req.path+",", 'not found:', mockJsonPath)
+                                return false;
+                            }
+                            let result = JSON5.parse(mockData)
+                            res.json(result);
+                            return;
+                        }
+                        return;
+                    }
+                })()
+            }
+        }
     },
     resolve: {
 
@@ -49,15 +125,9 @@ module.exports = {
         }
     },
     plugins:[
-        new WildcardsEntryWebpackPlugin(),
+        //new WildcardsEntryWebpackPlugin(),
         new HtmlWebpackPlugin({
-
-            // 这里有bug，filename必须没有任何目录路径，否则webpack-dev-server 404
-            // output.path设置就受到限制了
-            // https://github.com/jantimon/html-webpack-plugin/issues/3
-            // https://github.com/jantimon/html-webpack-plugin/issues/685
             filename: "index.html", //生成的html存放路径，相对于output.path
-
             template: `${SRC_DIR}/index.html`, // 相对cwd
             inject: true
         }),
@@ -78,7 +148,7 @@ module.exports = {
 
         // names 顺序与html inject顺序相反
         new webpack.optimize.CommonsChunkPlugin({
-            name: ["js/react", "js/bootstrap", "js/jquery"],
+            name: ["react", "bootstrap", "jquery"],
             minChunks: Infinity
         }),
         new CleanWebpackPlugin(['dist'])
@@ -103,14 +173,18 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif)$/,
-                loader: 'url?limit=1024&name=${IMGS_DIR}/[name].[ext]'
+                loader: `url?limit=1024&name=${IMGS_DIR}/[name].[ext]`
             },
             {
                 test: /\.jsx?$/,
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
                 options: {
-                    presets: ['es2015', 'react']
+                    presets: ['es2015', 'react'],
+
+                    //  import() 本来webpack支持，但是用了babel需要插件才能支持了。
+                    //  否则报语法错误
+                    plugins: ["syntax-dynamic-import"]
                 }
             }
         ]
