@@ -9,8 +9,10 @@
 var path = require('path');
 var webpack = require('webpack');
 var WildcardsEntryWebpackPlugin = require('wildcards-entry-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
+
 
 const SRC_DIR = "src";
 const DIST_DIR = "dist";
@@ -18,23 +20,26 @@ const DIST_DIR = "dist";
 const FONTS_DIR = `static/fonts`;
 const IMGS_DIR = `static/imgs`;
 const JS_DIR = 'static/js'
+const CSS_DIR = 'static/css'
 
 const MOCK_API_JSON_FILE = './mock/api.json';
 
-module.exports = {
+const isProd = process.env.NODE_ENV === 'prod' ? true : false;
+const isDev = !isProd;
+
+const config = {
     entry: {
-        "index": "./src/index.entry.jsx",
+        "index": ["./src/index.entry.js"],
         "jquery": ['jquery'],
-        "bootstrap": ['bootstrap'],
-        "react": ['react', 'react-dom', 'react-router']
+        "react": ['react', 'react-dom', 'react-router', 'react-transition-group', 'reactstrap']
     },
     output: {
         path:  path.resolve(__dirname, DIST_DIR),
         // publicPath 是用于html中，资源加前缀，对资源生成目录没影响
         publicPath: '/',
-        filename: `${JS_DIR}/[name].js`
+        filename: `${JS_DIR}/[name].[chunkhash:8].js`
     },
-    devtool: 'inline-source-map',
+    //devtool: 'inline-source-map',
     devServer: {
         // 这里的outpu.path是放在内存中的
         // 这个变量的意思相当于nginx，
@@ -116,9 +121,10 @@ module.exports = {
 
         //  可以利用别名来指向min.js，防止require三方依赖时，解析三方内部依赖！
         alias: {
-            bootstrap$: path.resolve(__dirname, 'bower_components/bootstrap/dist/js/bootstrap.min.js'),
-            "bootstrap.css$": path.resolve(__dirname, 'bower_components/bootstrap/dist/css/bootstrap.min.css'),
-            react: path.resolve(__dirname, 'node_modules/react/cjs/react.production.min.js'),
+            jquery$: path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
+            "react-transition-group":path.resolve(__dirname, 'node_modules/react-transition-group/dist/react-transition-group.min.js'),
+            reactstrap$: path.resolve(__dirname, 'node_modules/reactstrap/dist/reactstrap.min.js'),
+            react$: path.resolve(__dirname, 'node_modules/react/cjs/react.production.min.js'),
             "react-dom$": path.resolve(__dirname, 'node_modules/react-dom/cjs/react-dom.production.min.js'),
             "react-router": path.resolve(__dirname, 'node_modules/react-router/umd/react-router.min.js'),
             "react-router-dom": path.resolve(__dirname, 'node_modules/react-router-dom/umd/react-router-dom.min.js')
@@ -142,13 +148,10 @@ module.exports = {
             'window.jQuery': 'jquery'
         }),
 
-        // use in prod, commonsChunk vendor hash stable
-        // output filename hash must be [chunkhash]
-        //new webpack.HashedModuleIdsPlugin(),
 
         // names 顺序与html inject顺序相反
         new webpack.optimize.CommonsChunkPlugin({
-            name: ["react", "bootstrap", "jquery"],
+            name: ["react", "jquery", "commoncss"],
             minChunks: Infinity
         }),
         new CleanWebpackPlugin(['dist'])
@@ -160,12 +163,28 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                loader: 'style!css'
+                use: [
+                    {
+                        loader: "style-loader"
+                    },
+                    {
+                        loader: "css-loader"
+                    }
+                ]
             },
-            // 需要安装less依赖
             {
-                test: /\.less$/,
-                    loader: 'style!css!less'
+                test: /\.scss/,
+                use: [
+                    {
+                        loader: "style-loader"
+                    },
+                    {
+                        loader: "css-loader"
+                    },
+                    {
+                        loader: "sass-loader"
+                    }
+                ]
             },
             {
                 test: /\.(woff|woff2|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -176,11 +195,11 @@ module.exports = {
                 loader: `url?limit=1024&name=${IMGS_DIR}/[name].[ext]`
             },
             {
-                test: /\.jsx?$/,
+                test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
                 options: {
-                    presets: ['es2015', 'react'],
+                    presets: ['es2015','react', 'stage-2','env'],
 
                     //  import() 本来webpack支持，但是用了babel需要插件才能支持了。
                     //  否则报语法错误
@@ -190,3 +209,39 @@ module.exports = {
         ]
     }
 }
+
+
+if (isDev) {
+    const pluginList = [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
+    ];
+    Array.prototype.push.apply(config.plugins, pluginList);
+}
+
+if (isProd) {
+    config.module.rules[0]=  {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: ['css-loader']
+        })
+    }
+    config.module.rules[1]=  {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: ['css-loader', 'sass-loader']
+        })
+    }
+    Array.prototype.push.apply(config.plugins, [
+        new ExtractTextPlugin({filename: `${CSS_DIR}/[name].[contenthash:8].css`}),
+
+        // use in prod, commonsChunk vendor hash stable
+        // output filename hash must be [chunkhash]
+        new webpack.HashedModuleIdsPlugin(),
+        new webpack.optimize.UglifyJsPlugin({sourceMap: true})
+    ]);
+}
+
+module.exports = config;
