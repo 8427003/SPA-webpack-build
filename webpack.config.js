@@ -30,6 +30,7 @@ const isDev = !isProd;
 const config = {
     entry: {
         "index": ["./src/index.entry.js"],
+        "commoncss":['./src/common/scss/common.scss'],
         "jquery": ['jquery'],
         "react": ['react', 'react-dom', 'react-router', 'react-transition-group', 'reactstrap']
     },
@@ -37,7 +38,7 @@ const config = {
         path:  path.resolve(__dirname, DIST_DIR),
         // publicPath 是用于html中，资源加前缀，对资源生成目录没影响
         publicPath: '/',
-        filename: `${JS_DIR}/[name].[chunkhash:8].js`
+        filename: `${JS_DIR}/[name].[hash:8].js`
     },
     //devtool: 'inline-source-map',
     devServer: {
@@ -173,6 +174,20 @@ const config = {
                 ]
             },
             {
+                test: /\.less/,
+                use: [
+                    {
+                        loader: "style-loader"
+                    },
+                    {
+                        loader: "css-loader"
+                    },
+                    {
+                        loader: "less-loader"
+                    }
+                ]
+            },
+            {
                 test: /\.scss/,
                 use: [
                     {
@@ -228,6 +243,13 @@ if (isProd) {
         })
     }
     config.module.rules[1]=  {
+        test: /\.less$/,
+        use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: ['css-loader', 'less-loader']
+        })
+    }
+    config.module.rules[2]=  {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
             fallback: 'style-loader',

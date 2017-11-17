@@ -1,4 +1,4 @@
-import  "./_layout.scss";
+import  "./FullLayout.less";
 import React, {Component} from 'react';
 import {Link, Switch, Route, Redirect} from 'react-router-dom';
 import {Container} from 'reactstrap';

@@ -8,7 +8,7 @@ import SidebarForm from './../SidebarForm/SidebarForm.js';
 import SidebarHeader from './../SidebarHeader/SidebarHeader.js';
 import SidebarMinimizer from './../SidebarMinimizer/SidebarMinimizer.js';
 
-import  './_sidebar.scss';
+import  './Sidebar.less';
 
 class Sidebar extends Component {
 

@@ -6,7 +6,7 @@ import {
   NavbarBrand,
 } from 'reactstrap';
 
-import  './_navbar.scss';
+import  './Header.less';
 
 class Header extends Component {
 
