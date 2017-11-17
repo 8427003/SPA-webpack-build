@@ -31,9 +31,9 @@ ajv-keywords@^2.0.0:
   version "2.1.1"
   resolved "http://100.73.16.43:4873/ajv-keywords/-/ajv-keywords-2.1.1.tgz#617997fc5f60576894c435f940d819e135b80762"
 
-ajv@^4.9.1:
-  version "4.11.8"
-  resolved "http://100.73.16.43:4873/ajv/-/ajv-4.11.8.tgz#82ffb02b29e662ae53bdc20af15947706739c536"
+ajv@4.11.2, ajv@^4.9.1:
+  version "4.11.2"
+  resolved "http://registry.npm.taobao.org/ajv/download/ajv-4.11.2.tgz#f166c3c11cbc6cb9dcc102a5bcfe5b72c95287e6"
   dependencies:
     co "^4.6.0"
     json-stable-stringify "^1.0.1"
@@ -194,7 +194,7 @@ async@^1.5.2:
   version "1.5.2"
   resolved "http://100.73.16.43:4873/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
-async@^2.1.2, async@^2.1.5, async@^2.4.1:
+async@^2.1.2, async@^2.1.5, async@^2.4.1, async@^2.5.0:
   version "2.6.0"
   resolved "http://100.73.16.43:4873/async/-/async-2.6.0.tgz#61a29abb6fcc026fea77e56d1c6ec53a795951f4"
   dependencies:
@@ -413,6 +413,10 @@ babel-plugin-check-es2015-constants@^6.22.0:
   resolved "http://100.73.16.43:4873/babel-plugin-check-es2015-constants/-/babel-plugin-check-es2015-constants-6.22.0.tgz#35157b101426fd2ffd3da3f75c7d1e91835bbf8a"
   dependencies:
     babel-runtime "^6.22.0"
+
+babel-plugin-dual-import@^1.1.5:
+  version "1.1.5"
+  resolved "http://registry.npm.taobao.org/babel-plugin-dual-import/download/babel-plugin-dual-import-1.1.5.tgz#0c278d2f7f6a991dc2f3050baafadc248d6834ac"
 
 babel-plugin-syntax-async-functions@^6.8.0:
   version "6.13.0"
@@ -1983,6 +1987,17 @@ extglob@^0.3.1:
   dependencies:
     is-extglob "^1.0.0"
 
+extract-css-chunks-webpack-plugin@^2.0.17:
+  version "2.0.17"
+  resolved "http://registry.npm.taobao.org/extract-css-chunks-webpack-plugin/download/extract-css-chunks-webpack-plugin-2.0.17.tgz#2ded0d3ed1e507f1fe058b9242baec007b98f2e2"
+  dependencies:
+    ajv "4.11.2"
+    async "^2.5.0"
+    loader-utils "^1.1.0"
+    schema-utils "^0.3.0"
+    style-loader "^0.18.2"
+    webpack-sources "^1.0.1"
+
 extract-text-webpack-plugin@^3.0.2:
   version "3.0.2"
   resolved "http://registry.npm.taobao.org/extract-text-webpack-plugin/download/extract-text-webpack-plugin-3.0.2.tgz#5f043eaa02f9750a9258b78c0a6e0dc1408fb2f7"
@@ -2089,6 +2104,12 @@ find-up@^2.0.0, find-up@^2.1.0:
 flatten@^1.0.2:
   version "1.0.2"
   resolved "http://100.73.16.43:4873/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
+
+flush-css-chunks-webpack-plugin@^0.1.0:
+  version "0.1.0"
+  resolved "http://registry.npm.taobao.org/flush-css-chunks-webpack-plugin/download/flush-css-chunks-webpack-plugin-0.1.0.tgz#b0e163e0c5af3a874e540cc0d8408abbf66f2fb0"
+  dependencies:
+    webpack-sources "^1.0.1"
 
 font-awesome@^4.7.0:
   version "4.7.0"
@@ -4651,6 +4672,13 @@ strip-indent@^1.0.1:
 strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "http://100.73.16.43:4873/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
+
+style-loader@^0.18.2:
+  version "0.18.2"
+  resolved "http://registry.npm.taobao.org/style-loader/download/style-loader-0.18.2.tgz#cc31459afbcd6d80b7220ee54b291a9fd66ff5eb"
+  dependencies:
+    loader-utils "^1.0.2"
+    schema-utils "^0.3.0"
 
 style-loader@^0.19.0:
   version "0.19.0"

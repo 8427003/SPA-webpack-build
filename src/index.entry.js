@@ -5,11 +5,6 @@ import {HashRouter, Route, Switch} from 'react-router-dom';
 // Containers
 import FullLayout from './components/FullLayout/FullLayout.js'
 
-// Styles
-// Import Font Awesome Icons Set
-import 'font-awesome/css/font-awesome.min.css';
-// Import Simple Line Icons Set
-import 'simple-line-icons/css/simple-line-icons.css';
 import Page404 from './views/Pages/Page404/Page404.js';
 import Page500 from './views/Pages/Page500/Page500.js';
 

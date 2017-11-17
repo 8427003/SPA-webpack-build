@@ -5,8 +5,10 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open",
-    "build": "NODE_ENV=prod webpack  --display-modules --sort-modules-by size",
+    "dev": "webpack -d --progress --watch --profile --json > compilation-stats.json --env.dev",
+    "start": "webpack-dev-server --open --progress --colors --inline --env.dev",
+    "build": "webpack -p --progress --env.prod",
+
     "postinstall": "bower install"
   },
   "author": "",
@@ -14,17 +16,18 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-plugin-dual-import": "^1.1.5",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "bower": "^1.8.2",
     "clean-webpack-plugin": "^0.1.17",
-    "css-hot-loader": "^1.3.3",
     "css-loader": "^0.28.7",
+    "extract-css-chunks-webpack-plugin": "^2.0.17",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.5",
+    "flush-css-chunks-webpack-plugin": "^0.1.0",
     "html-webpack-plugin": "^2.30.1",
     "json5": "^0.5.1",
     "less": "^2.7.3",
