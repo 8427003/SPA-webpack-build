@@ -1,0 +1,34 @@
+{
+    "data": {
+        "info": {
+            "user_id": "zhouqf",
+            "user_name": "周庆峰",
+            "user_email": "zhouqf@jiedaibao.com"
+        },
+        "menus": [
+            {
+                "id": 290,
+                "children": [
+                    {
+                        "id": 281,
+                        "name": "查询",
+                        "url": "/test/test2"
+                    },
+                    {
+                        "id": 282,
+                        "name": "新增",
+                        "url": "/test/test1"
+                    }
+                ],
+                "name": "问卷管理",
+                "url": "/dashboard"
+            }
+        ],
+        "bus": "1,2"
+    },
+    "error": {
+        "returnCode": 0,
+        "returnMessage": "操作成功",
+        "returnUserMessage": "操作成功"
+    }
+}

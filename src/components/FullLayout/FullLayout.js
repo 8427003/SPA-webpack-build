@@ -1,13 +1,16 @@
 import  "./FullLayout.less";
+
 import React, {Component} from 'react';
 import {Link, Switch, Route, Redirect} from 'react-router-dom';
 import {Container} from 'reactstrap';
-import Header from '../../components/Header/Header.js';
-import Sidebar from '../../components/Sidebar/Sidebar.js';
-import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.js';
-import Footer from '../../components/Footer/Footer.js';
-
 import Async from 'react-code-splitting';
+
+import PrivateRoute from '../PrivateRoute/PrivateRoute.js';
+
+import Header from '../Header/Header.js';
+import Sidebar from '../Sidebar/Sidebar.js';
+import Breadcrumb from '../Breadcrumb/Breadcrumb.js';
+import Footer from '../Footer/Footer.js';
 
 const Dashboard = ()=> <Async load={import('../../views/Dashboard/Dashboard.js')} />
 const Test1 = ()=> <Async load={import('../../views/Test/Test2.js')} />
@@ -24,9 +27,9 @@ class FullLayout extends Component {
             <Breadcrumb />
             <Container fluid>
               <Switch>
-                <Route path="/dashboard" name="Dashboard" component={Dashboard}/>
-                <Route path="/test/test1" name="Test" component={Test1}/>
-                <Route path="/test/test2" name="Test" component={Test2}/>
+                <PrivateRoute path="/dashboard" name="Dashboard" component={Dashboard}/>
+                <PrivateRoute path="/test/test1" name="Test" component={Test1}/>
+                <PrivateRoute path="/test/test2" name="Test" component={Test2}/>
                 <Redirect from="/" to="/dashboard"/>
               </Switch>
             </Container>
