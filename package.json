@@ -4,17 +4,17 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest  --watch",
     "dev": "webpack -d --progress --watch --profile --json > compilation-stats.json --env.dev",
     "start": "webpack-dev-server --open --progress --colors --inline --env.dev",
     "build": "webpack -p --progress --env.prod",
-
     "postinstall": "bower install"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-jest": "^21.2.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-dual-import": "^1.1.5",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
@@ -29,6 +29,7 @@
     "file-loader": "^1.1.5",
     "flush-css-chunks-webpack-plugin": "^0.1.0",
     "html-webpack-plugin": "^2.30.1",
+    "jest": "^21.2.1",
     "json5": "^0.5.1",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
