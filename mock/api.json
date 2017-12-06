@@ -1,4 +1,5 @@
 {
     "/profile/info": "./data/profileInfo.json",
-    "/survey/manageSurvey": "./data/manageSurvey.json"
+    "/survey/manageSurvey": "./data/manageSurvey.json",
+    "/survey/deleteSurvey": "./data/commonSuccess.json"
 }
