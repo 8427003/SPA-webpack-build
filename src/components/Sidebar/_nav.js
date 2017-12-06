@@ -1,27 +1,22 @@
 export default {
   items: [
-    {
-      name: 'Dashboard',
-      url: '/dashboard',
-      icon: 'icon-speedometer'
-    },
-    {
-      name: 'Test',
-      url: '/test',
-      icon: 'icon-speedometer',
-      children: [
-        {
-          name: 'test1',
-          url: '/test/test1',
-          icon: 'icon-puzzle'
-        },
-        {
-          name: 'test2',
-          url: '/test/test2',
-          icon: 'icon-puzzle'
-        }
-      ]
-    }
+      {
+          name: '问卷管理',
+          url: '/surveyManage',
+          icon: 'icon-puzzle',
+          children: [
+              {
+                  name: '问卷列表',
+                  url: '/surveyManage/list',
+                  icon: 'icon-puzzle'
+              },
+              {
+                  name: '新增问卷',
+                  url: '/surveyManage/add',
+                  icon: 'icon-puzzle'
+              }
+          ]
+      }
   ]
 };
 

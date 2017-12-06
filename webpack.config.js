@@ -43,7 +43,8 @@ module.exports = function (env={}){
                 'react-dom',
                 'react-router',
                 'react-transition-group',
-                'reactstrap'
+                'reactstrap',
+                'antd'
             ]
         },
         output: {
@@ -141,7 +142,8 @@ module.exports = function (env={}){
                 "react-dom$": path.resolve(__dirname, 'node_modules/react-dom/cjs/react-dom.production.min.js'),
                 "react-router": path.resolve(__dirname, 'node_modules/react-router/umd/react-router.min.js'),
                 "react-router-dom": path.resolve(__dirname, 'node_modules/react-router-dom/umd/react-router-dom.min.js')
-            }
+            },
+            extensions: ['.js', 'scss', 'css', 'less']
         },
         plugins:[
             //new WildcardsEntryWebpackPlugin(),
@@ -236,7 +238,11 @@ module.exports = function (env={}){
 
                         //  import() 本来webpack支持，但是用了babel需要插件才能支持了。
                         //  否则报语法错误
-                        plugins: ["syntax-dynamic-import", "dual-import"]
+                        plugins: [
+                            "syntax-dynamic-import",
+                            "dual-import",
+                            ["import", {"libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
+                        ]
                     }
                 }
             ]

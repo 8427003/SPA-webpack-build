@@ -4,3 +4,4 @@ dist
 node_modules
 .sass-cache
 stats.json
+yarn-error.log

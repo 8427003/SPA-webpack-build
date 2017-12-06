@@ -63,7 +63,7 @@ app-root {
   position: fixed;
   z-index: 1019;
   width: 200px;
-  height: calc(100vh - 55px);
+  height: calc(~"100vh - 55px");
 }
 
 .sidebar-fixed .main, .sidebar-fixed .app-footer {
@@ -223,6 +223,9 @@ app-root {
 }
 
 @media (max-width: 991px) {
+  .d-md-down-none {
+      display: none !important;
+  }
   .app-header.navbar {
     position: fixed !important;
     z-index: 1020;

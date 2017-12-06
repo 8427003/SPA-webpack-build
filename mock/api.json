@@ -1,3 +1,4 @@
 {
-    "/profile/info": "./data/profileInfo.json"
+    "/profile/info": "./data/profileInfo.json",
+    "/survey/manageSurvey": "./data/manageSurvey.json"
 }

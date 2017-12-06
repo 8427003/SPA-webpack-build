@@ -7,7 +7,7 @@ import {Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import menus from '../Sidebar/_nav.js';
 
 // 根据菜单生成面包屑
-let routes = {'/': 'Home'}
+let routes = {}
 function addNav (items){
     items.forEach(function(item) {
         if(item.url) {

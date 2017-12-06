@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import {HashRouter, Route, Switch} from 'react-router-dom';
 
 // Containers
-import FullLayout from './components/FullLayout/FullLayout.js'
+import FullLayout from './components/FullLayout/FullLayout'
 
-import Page404 from './views/Pages/Page404/Page404.js';
-import Page500 from './views/Pages/Page500/Page500.js';
-import PageLogin from './views/Pages/PageLogin/PageLogin.js';
+import Page404 from './views/Pages/Page404/Page404';
+import Page500 from './views/Pages/Page500/Page500';
+import PageLogin from './views/Pages/PageLogin/PageLogin';
 
 
 

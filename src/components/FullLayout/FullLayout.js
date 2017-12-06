@@ -5,16 +5,15 @@ import {Link, Switch, Route, Redirect} from 'react-router-dom';
 import {Container} from 'reactstrap';
 import Async from 'react-code-splitting';
 
-import PrivateRoute from '../PrivateRoute/PrivateRoute.js';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
-import Header from '../Header/Header.js';
-import Sidebar from '../Sidebar/Sidebar.js';
-import Breadcrumb from '../Breadcrumb/Breadcrumb.js';
-import Footer from '../Footer/Footer.js';
+import Header from '../Header/Header';
+import Sidebar from '../Sidebar/Sidebar';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
+import Footer from '../Footer/Footer';
 
-const Dashboard = ()=> <Async load={import('../../views/Dashboard/Dashboard.js')} />
-const Test1 = ()=> <Async load={import('../../views/Test/Test2.js')} />
-const Test2 = ()=> <Async load={import('../../views/Test/Test1.js')} />
+const SurveyList = ()=> <Async load={import('../../views/SurveyManage/List')} />
+const SurveyAdd = ()=> <Async load={import('../../views/SurveyManage/Add')} />
 
 class FullLayout extends Component {
   render() {
@@ -27,10 +26,9 @@ class FullLayout extends Component {
             <Breadcrumb />
             <Container fluid>
               <Switch>
-                <PrivateRoute path="/dashboard" name="Dashboard" component={Dashboard}/>
-                <PrivateRoute path="/test/test1" name="Test" component={Test1}/>
-                <PrivateRoute path="/test/test2" name="Test" component={Test2}/>
-                <Redirect from="/" to="/dashboard"/>
+                <PrivateRoute path="/surveyManage/list" name="问卷列表" component={SurveyList}/>
+                <PrivateRoute path="/surveyManage/add" name="新增问卷" component={SurveyAdd}/>
+                <Redirect from="/" to="/surveyManage/list"/>
               </Switch>
             </Container>
           </main>

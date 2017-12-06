@@ -11,17 +11,17 @@
                 "children": [
                     {
                         "id": 281,
-                        "name": "查询",
-                        "url": "/test/test2"
+                        "name": "问卷列表",
+                        "url": "/surveyManage/list"
                     },
                     {
                         "id": 282,
-                        "name": "新增",
-                        "url": "/test/test1"
+                        "name": "新增问卷",
+                        "url": "/surveyManage/add"
                     }
                 ],
                 "name": "问卷管理",
-                "url": "/dashboard"
+                "url": "/surveyManage"
             }
         ],
         "bus": "1,2"
