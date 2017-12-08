@@ -1,0 +1,27 @@
+{
+    "data":{
+        "surveyId" : 100000001,
+        "category":1,
+        "isRequired":0,
+        "sequences": [
+            {
+                "sequence": 0,
+                "title": "你好"
+            },
+            {
+                "sequence": 2,
+                "title": "<span style=\"color:red\">你好2</span>"
+            }
+        ],
+        "title":"<span style=\"color:red\">123</span>",
+        "options":[
+            {"optionTitle":"1231","optionHasInput":0,"optionJump":0,"jumpTo":0,"score":1},
+            {"optionTitle":"<span style=\"color:red\">12312</span>","optionHasInput":0,"optionJump":0,"jumpTo":0,"score":2}
+        ]
+    },
+    "error":{
+        "returnCode":0,
+        "returnMessage":"success",
+        "returnUserMessage":"成功"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "data":{
+        "question": [
+            {
+                "id": "5",
+                "sequence": "1",
+                "title": "s",
+                "category": "单选"
+            },
+            {
+                "id": "6",
+                "sequence": "2",
+                "title": "s",
+                "category": "单选"
+            }
+        ],
+        "subject":"测试问卷1",
+        "welcome":"测试欢迎语1"
+    },
+    "error":{
+        "returnCode":0,
+        "returnMessage":"success",
+        "returnUserMessage":"成功"
+    }
+}

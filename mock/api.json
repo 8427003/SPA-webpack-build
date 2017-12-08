@@ -1,5 +1,11 @@
 {
     "/profile/info": "./data/profileInfo.json",
     "/survey/manageSurvey": "./data/manageSurvey.json",
-    "/survey/deleteSurvey": "./data/commonSuccess.json"
+    "/survey/deleteSurvey": "./data/commonSuccess.json",
+    "/survey/createSurvey": "./data/commonSuccess.json",
+    "/survey/surveyModify": "./data/surveyModify.json",
+    "/survey/question/move": "./data/commonSuccess.json",
+    "/survey/question/delete": "./data/commonSuccess.json",
+    "/survey/question/createQuestion": "./data/commonSuccess.json",
+    "/survey/question/questionModify": "./data/questionModify.json"
 }

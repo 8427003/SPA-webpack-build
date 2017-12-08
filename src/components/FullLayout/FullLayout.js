@@ -12,8 +12,9 @@ import Sidebar from '../Sidebar/Sidebar';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import Footer from '../Footer/Footer';
 
-const SurveyList = ()=> <Async load={import('../../views/SurveyManage/List')} />
-const SurveyAdd = ()=> <Async load={import('../../views/SurveyManage/Add')} />
+const SurveyList = (props)=> <Async componentProps={props} load={import('../../views/SurveyManage/List')} />
+const SurveyDetail = (props)=> <Async componentProps={props} load={import('../../views/SurveyManage/Detail')} />
+const SurveyQuestion = (props)=> <Async componentProps={props} load={import('../../views/SurveyManage/Question')} />
 
 class FullLayout extends Component {
   render() {
@@ -27,7 +28,10 @@ class FullLayout extends Component {
             <Container fluid>
               <Switch>
                 <PrivateRoute path="/surveyManage/list" name="问卷列表" component={SurveyList}/>
-                <PrivateRoute path="/surveyManage/add" name="新增问卷" component={SurveyAdd}/>
+                <PrivateRoute path="/surveyManage/detail/question/:method/id" name="修改题目" component={SurveyQuestion}/>
+                <PrivateRoute path="/surveyManage/detail/question/:method" name="新增题目" component={SurveyQuestion}/>
+                <PrivateRoute path="/surveyManage/detail/:method/:id" name="修改问卷" component={SurveyDetail}/>
+                <PrivateRoute path="/surveyManage/detail/:method" name="新增问卷" component={SurveyDetail}/>
                 <Redirect from="/" to="/surveyManage/list"/>
               </Switch>
             </Container>

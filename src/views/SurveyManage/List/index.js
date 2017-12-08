@@ -43,6 +43,7 @@ export default class SurveyList extends Component {
            },
            listData:[]
         }
+        console.log(this.props)
 
         this.columns = columns.concat({
             title: '操作',

@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom'
 import auth from '../Auth/Auth.js';
 
+
 function checkPagePermissions(url){
     const menusMap = auth.getMenuMap();
     if(menusMap.has(url)) {
@@ -25,7 +26,6 @@ function PrivateRoute({component: Component, path: path, ...rest}) {
 
                 // 登陆成功后，检查用户页面访问权限
                 if(!checkPagePermissions(path)){
-                    console.log(2)
                     return (
                         <Redirect to={{
                             pathname: '/500',
@@ -33,7 +33,6 @@ function PrivateRoute({component: Component, path: path, ...rest}) {
                         }}/>
                     )
                 }
-
                 return (
                     <Component {...props}/>
                 );

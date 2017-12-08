@@ -14,6 +14,21 @@ export default {
                   name: '新增问卷',
                   url: '/surveyManage/add',
                   icon: 'icon-puzzle'
+              },
+              {
+                  name: '修改问卷',
+                  url: '/surveyManage/detail/modify/123',
+                  icon: 'icon-puzzle',
+              },
+              {
+                  name: '新增问题',
+                  url: '/surveyManage/detail/question/add',
+                  icon: 'icon-puzzle'
+              },
+              {
+                  name: '修改问题',
+                  url: '/surveyManage/detail/question/modify',
+                  icon: 'icon-puzzle'
               }
           ]
       }
