@@ -8,17 +8,7 @@ import menus from '../Sidebar/_nav.js';
 
 // 根据菜单生成面包屑
 let routes = {}
-function addNav (items){
-    items.forEach(function(item) {
-        if(item.url) {
-            routes[item.url]= item.name;
-        }
-        if(item.children){
-            addNav(item.children);
-        }
-    });
-}
-addNav(menus.items);
+
 routes = {
   '/': 'Home',
   '/surveyManage/list': '问卷列表',
@@ -73,9 +63,3 @@ const Breadcrumbs = ({...rest, location : {pathname}, match}) => {
     </Breadcrumb>
   );
 };
-
-export default props => (
-  <div>
-    <Route path="/:path" component={Breadcrumbs} {...props} />
-  </div>
-);

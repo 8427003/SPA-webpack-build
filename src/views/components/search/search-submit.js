@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'antd';
 
 export default class searchSubmit extends Component {
     constructor(props){
@@ -7,7 +8,7 @@ export default class searchSubmit extends Component {
     render() {
         return (
             <div className="form-group">
-                <button type="submit" className="btn btn-primary" onClick={this.props.onClick}>查询</button>
+                <Button type="primary" htmlType="submit" onClick={this.props.onClick}>查询</Button>
             </div>
         )
     }

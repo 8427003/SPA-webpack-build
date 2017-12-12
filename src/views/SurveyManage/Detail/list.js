@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM  from 'react-dom';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link} from 'react-router-dom';
 import { Table, Modal, message, Button, Card } from 'antd';
 
 let columns = [
@@ -89,8 +89,9 @@ export default class QuestionList extends Component {
                     .then((res)=>{
                         if (0 !== res.data.error.returnCode) {
                             message.error(res.data.error.returnUserMessage);
+                            return;
                         }
-                        message.error('删除成功！');
+                        message.success('删除成功！');
                         this.props.refresh();
                     })
                     .catch(function (error) {
@@ -133,27 +134,28 @@ export default class QuestionList extends Component {
         )
     }
     render() {
-
         if(this.state && this.state.targetToNewAddPage) {
-            return <Redirect to={`/surveyManage/detail/question/add`} />
+            return <Redirect to={`/surveyManage/question/${this.props.match.params.id}/0`} />
         }
 
         if(this.state && this.state.targetToModifyPage) {
-            return <Redirect to={`/surveyManage/detail/question/modify/${this.state.id}`} />
+            return <Redirect to={`/surveyManage/question/${this.props.match.params.id}/${this.state.id}`} />
         }
 
         // 缓存list 长度
         this.len = this.props.dataSource ? this.props.dataSource.length : 0;
 
         return (
-            <Card type="inner" title="问题列表" extra={this.addQuesBtn()}>
-                <Table
-                    rowKey="id"
-                    pagination={false}
-                    dataSource={this.props.dataSource}
-                    columns={this.columns}
-                />
-            </Card>
+            <div>
+                <Card type="inner" title="问题列表" extra={this.addQuesBtn()}>
+                    <Table
+                        rowKey="id"
+                        pagination={false}
+                        dataSource={this.props.dataSource}
+                        columns={this.columns}
+                    />
+                </Card>
+            </div>
         )
     }
 }

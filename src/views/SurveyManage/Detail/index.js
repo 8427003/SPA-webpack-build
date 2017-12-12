@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { Form, Input, Button, Card, message } from 'antd';
 import QuestionList from './list.js';
+import Breadcrumb from '../../components/breadcrumb';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -23,7 +24,6 @@ class Detail extends Component {
             addSuccess: false
         }
     }
-
     submit(){
         this.props.form.validateFields((errors, values) => {
             if (errors) {
@@ -33,8 +33,9 @@ class Detail extends Component {
                 .then((res)=>{
                     if (0 !== res.data.error.returnCode) {
                         message.error(res.data.error.returnUserMessage);
+                        return;
                     }
-                    message.error('添加成功！');
+                    message.success('操作成功！');
                     this.setState({addSuccess: true});
                 })
                 .catch(function (error) {
@@ -102,11 +103,15 @@ class Detail extends Component {
             return <Redirect to="/surveyManage/list"/>
         }
 
-        const isAdd = this.props.match.params.method === 'add' ? true : false;
+        const isAdd = this.props.match.params.id === '0' ? true : false;
         const { getFieldDecorator } = this.props.form;
 
         return (
             <div>
+                <Breadcrumb routes={[
+                    {path: '/surveyManage/list', name: '问卷列表'},
+                    {path: '', name: isAdd ? '新增问卷' : '修改问卷'}
+                ]} />
                 <Card title={isAdd ? '新增问卷' : '修改问卷'} extra={this.groupBtns(isAdd)}>
                     <Form>
                         <FormItem
@@ -134,7 +139,7 @@ class Detail extends Component {
                             )}
                         </FormItem>
                     </Form>
-                    {!isAdd && <QuestionList refresh={()=>this.renderPage()} dataSource={this.state.question}/>}
+                    {!isAdd && <QuestionList {...this.props} refresh={()=>this.renderPage()} dataSource={this.state.question}/>}
                 </Card>
             </div>
         )

@@ -24,14 +24,11 @@ class FullLayout extends Component {
         <div className="app-body">
           <Sidebar {...this.props}/>
           <main className="main">
-            <Breadcrumb />
             <Container fluid>
               <Switch>
                 <PrivateRoute path="/surveyManage/list" name="问卷列表" component={SurveyList}/>
-                <PrivateRoute path="/surveyManage/detail/question/:method/id" name="修改题目" component={SurveyQuestion}/>
-                <PrivateRoute path="/surveyManage/detail/question/:method" name="新增题目" component={SurveyQuestion}/>
-                <PrivateRoute path="/surveyManage/detail/:method/:id" name="修改问卷" component={SurveyDetail}/>
-                <PrivateRoute path="/surveyManage/detail/:method" name="新增问卷" component={SurveyDetail}/>
+                <PrivateRoute path="/surveyManage/detail/:id" name="新增/修改问卷" component={SurveyDetail}/>
+                <PrivateRoute path="/surveyManage/question/:detailId/:id" name="新增/修改题目" component={SurveyQuestion}/>
                 <Redirect from="/" to="/surveyManage/list"/>
               </Switch>
             </Container>

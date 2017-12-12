@@ -5,7 +5,9 @@ import Search from  '../../components/search/search';
 import SearchText from  '../../components/search/search-text';
 import SearchSelect from  '../../components/search/search-select';
 import SearchSubmit from  '../../components/search/search-submit';
-import { Table, Modal, message } from 'antd';
+import { Redirect } from 'react-router-dom';
+import { Button, Table, Modal, message, Card } from 'antd';
+import Breadcrumb from '../../components/breadcrumb';
 
 
 
@@ -36,37 +38,32 @@ export default class SurveyList extends Component {
     constructor(props){
         super(props);
         this.state =  {
-           open: false,
-           condition: {
-                subject: '1231',
-                status: 1
-           },
+           condition: {},
            listData:[]
         }
-        console.log(this.props)
 
         this.columns = columns.concat({
             title: '操作',
             render: row => {
-                let status = row.status;
-
                 return (
                     <div style={{textAlign: 'center'}}>
-                        <button
-                            className="btn btn-primary btn-sm"
+                        <Button
+                            size="small"
                             style={{marginRight: '5px'}}
-                        >修改</button>
-                        <button
+                            onClick={()=>{
+                                this.setState({targeModifyId: row.id});
+                            }}
+                        >修改</Button>
+
+                        <Button
                             onClick={() => {
                                 this.showDeleteConfirm(row.id);
-                                this.setState({open: true});
                             }}
-                            className="btn btn-primary btn-sm"
+                            size="small"
                             style={{marginRight: '5px'}}
-                        >删除</button>
-                       <button
-                           className="btn btn-primary btn-sm"
-                       >预览</button>
+                        >删除</Button>
+
+                       <Button size="small">预览</Button>
                     </div>
                 )
             }
@@ -76,9 +73,12 @@ export default class SurveyList extends Component {
         this.renderListTable(this.state.condition);
     }
     renderListTable(condition) {
-        console.log('condition:', condition);
         axios.post('/survey/manageSurvey', condition)
             .then((res)=>{
+                if(0 !== res.data.error.returnCode) {
+                    message.error(res.data.error.returnUserMessage);
+                    return;
+                }
                 this.setState({
                     listData: res.data.data
                 })
@@ -99,12 +99,12 @@ export default class SurveyList extends Component {
                     .then((res)=>{
                         if (0 !== res.data.error.returnCode) {
                             message.error(res.data.error.returnUserMessage);
+                            return;
                         }
-                        message.error('删除成功！');
+                        message.success('删除成功！');
                         this.renderListTable(this.state.condition);
                     })
                     .catch(function (error) {
-                        console.log(error)
                         message.error('服务异常，请稍后在试！');
                     });
             }
@@ -117,10 +117,20 @@ export default class SurveyList extends Component {
     handleDel(){
     }
     render() {
+        if(this.state.isNewAdd) {
+            return <Redirect to="/surveyManage/detail/0" />
+        }
+        if(this.state.targeModifyId) {
+            return <Redirect to={`/surveyManage/detail/${this.state.targeModifyId}`} />
+        }
+
         return (
             <div>
-                <div className="card">
-                    <div className="card-header">
+                <Breadcrumb routes={[
+                    {path:'', name: '问卷列表'}
+                ]} />
+                <Card
+                    title={
                         <Search condition={this.state.condition} onSubmit={this.searchSubmitHandler.bind(this)}>
                             <SearchText
                                 label="问卷名称"
@@ -129,11 +139,19 @@ export default class SurveyList extends Component {
                             <SearchSelect
                                 label="状态"
                                 field="status"
-                                optionsData={[{value:0, text:'全部'},{value:1, text:'是'}]}
+                                optionsData={[
+                                    {value:'', text:'全部'},
+                                    {value:0, text:'未发布'},
+                                    {value:1, text:'已发布'}
+                                ]}
                             />
                             <SearchSubmit />
                         </Search>
-                    </div>
+                    }
+                    extra={
+                        <Button onClick={()=>this.setState({isNewAdd: true})}>新增问卷</Button>
+                    }
+                >
                     <div className="card-body">
                         <Table
                             rowKey="id"
@@ -141,7 +159,7 @@ export default class SurveyList extends Component {
                             columns={this.columns}
                         />
                     </div>
-                </div>
+                </Card>
             </div>
         )
     }
