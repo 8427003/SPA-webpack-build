@@ -6,7 +6,7 @@ import SearchText from  '../../components/search/search-text';
 import SearchSelect from  '../../components/search/search-select';
 import SearchSubmit from  '../../components/search/search-submit';
 import { Redirect } from 'react-router-dom';
-import { Button, Table, Modal, message, Card } from 'antd';
+import { Pagination, Button, Table, Modal, message, Card } from 'antd';
 import Breadcrumb from '../../components/breadcrumb';
 
 
@@ -38,7 +38,10 @@ export default class SurveyList extends Component {
     constructor(props){
         super(props);
         this.state =  {
-           condition: {},
+            condition: {
+                pageNum: 1,
+                pageSize: 10
+            },
            listData:[]
         }
 
@@ -75,12 +78,14 @@ export default class SurveyList extends Component {
     renderListTable(condition) {
         axios.post('/survey/manageSurvey', condition)
             .then((res)=>{
+                debugger;
                 if(0 !== res.data.error.returnCode) {
                     message.error(res.data.error.returnUserMessage);
                     return;
                 }
                 this.setState({
-                    listData: res.data.data
+                    listData: res.data.data,
+                    total: res.data.totalCount
                 })
             })
             .catch(function (error) {
@@ -157,6 +162,7 @@ export default class SurveyList extends Component {
                             rowKey="id"
                             dataSource={this.state.listData}
                             columns={this.columns}
+                            pagination={false}
                         />
                     </div>
                 </Card>
